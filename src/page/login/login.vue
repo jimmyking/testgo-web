@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import {setStore} from '../../util/utils'
+
 export default {
   data () {
     return {
@@ -34,6 +36,8 @@ export default {
   methods: {
     onSubmit () {
       console.debug(this.loginForm.name)
+      setStore('uId', 'abc')
+      this.$router.push('home')
     }
   }
 }

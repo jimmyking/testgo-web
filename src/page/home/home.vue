@@ -1,33 +1,26 @@
 <template>
-  <div>
-    <el-container>
-      <el-header>Header</el-header>
-      <el-container>
-        <el-aside width="200px">Aside</el-aside>
-        <el-main>Main</el-main>
-      </el-container>
-    </el-container>
-  </div>
+  <div>abc</div>
+    
 </template>
 
-<style>
-.el-header, .el-footer {
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
+<script>
+import {getStore} from '../../util/utils'
+
+export default {
+  mounted () {
+    this.loadPage()
+  },
+  methods: {
+    async loadPage () {
+      var uId = getStore('uId')
+      if (!uId) {
+        this.$router.push('login')
+      }
+    }
+  }
 }
-.el-aside {
-    background-color: #D3DCE6;
-    color: #333;
-    text-align: center;
-    line-height: 200px;
-}
-.el-main {
-    background-color: #E9EEF3;
-    color: #333;
-    text-align: center;
-    line-height: 160px;
-}  
-</style>
+</script>
+
+
+
 

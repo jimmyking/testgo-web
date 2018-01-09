@@ -1,6 +1,8 @@
 const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')
 const header = r => require.ensure([], () => r(require('../components/header/header')), 'header')
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
+const project = r => require.ensure([], () => r(require('../page/project/project')), 'project')
+const addProject = r => require.ensure([], () => r(require('../page/project/child/addProject')), 'addProject')
 
 export default [
   {
@@ -16,8 +18,16 @@ export default [
         redirect: '/home'
       },
       {
-        path: '/home',
+        path: 'home',
         component: home
+      },
+      {
+        path: 'project',
+        component: project
+      },
+      {
+        path: 'addProject',
+        component: addProject
       }
     ]
   }

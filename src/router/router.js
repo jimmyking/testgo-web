@@ -5,6 +5,8 @@ const project = r => require.ensure([], () => r(require('../page/project/project
 const addProject = r => require.ensure([], () => r(require('../page/project/child/addProject')), 'addProject')
 const modelList = r => require.ensure([], () => r(require('../page/model/model')), 'model')
 const addModel = r => require.ensure([], () => r(require('../page/model/child/addModel')), 'addModel')
+const featureList = r => require.ensure([], () => r(require('../page/feature/feature')), 'feature')
+const addFeature = r => require.ensure([], () => r(require('../page/feature/child/addFeature')), 'addFeature')
 
 export default [
   {
@@ -40,6 +42,16 @@ export default [
         path: 'model/:pId/add',
         name: 'addModel',
         component: addModel
+      },
+      {
+        path: 'model/:pId/feature/:mId',
+        name: 'featureList',
+        component: featureList
+      },
+      {
+        path: 'model/:pId/feature/:mId/add',
+        name: 'addFeature',
+        component: addFeature
       }
     ]
   }

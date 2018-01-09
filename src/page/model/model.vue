@@ -3,7 +3,7 @@
     <el-row style="margin-bottom:10px">
       <el-col :span="23">
         <el-breadcrumb separator="/" style="height:32px;line-height:32px;">
-          <el-breadcrumb-item :to="{ path: '/' }">xx项目</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/project' }">xx项目</el-breadcrumb-item>
           <el-breadcrumb-item>模块列表</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
@@ -14,7 +14,7 @@
       </el-col>
     </el-row>
 
-    <el-table :data="tableData" border style="width: 100%" @row-click="jumpToModel">
+    <el-table :data="tableData" border style="width: 100%" @row-click="jumpToFeature">
       <el-table-column
         prop="name"
         label="模块名称"
@@ -53,9 +53,9 @@ export default {
     }
   },
   methods: {
-    jumpToModel: function (row) {
+    jumpToFeature: function (row) {
       console.debug(row)
-      this.$router.push()
+      this.$router.push({name: 'featureList', params: {pId: 1, mId: row.id}})
     }
   }
 }

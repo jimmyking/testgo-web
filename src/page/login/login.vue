@@ -2,18 +2,18 @@
   <el-container class="login-container">
     <el-header>登录</el-header>
     <el-main>
-      <el-form label-width="80px" :model="loginForm">
-        <el-form-item label="用户名">
+      <el-form label-width="80px" :model="loginForm" :rules="rules" ref="loginForm">
+        <el-form-item label="用户名" prop="name">
           <el-input v-model="loginForm.name">
           </el-input>
         </el-form-item>
-        <el-form-item label="密码">
+        <el-form-item label="密码" prop="password">
           <el-input type="password" v-model="loginForm.password">
           </el-input>
         </el-form-item>
         <el-form-item label-width="0px">
           <el-button type="primary" @click="onSubmit">登录</el-button>
-          <el-button>注册</el-button>
+          <el-button @click="jumpToSignup">注册</el-button>
         </el-form-item>
       </el-form>
     </el-main>
@@ -22,7 +22,9 @@
 </template>
 
 <script>
-import {setStore} from '../../util/utils'
+import {signin} from '../../service/getData'
+import constant from '../../config/constant'
+import { setStore } from '../../util/appUtils'
 
 export default {
   data () {
@@ -30,14 +32,42 @@ export default {
       loginForm: {
         name: '',
         password: ''
+      },
+      rules: {
+        name: [
+          {
+            required: true, message: '用户名不能为空', trigger: 'blur'
+          }
+        ],
+        password: [
+          {
+            required: true, message: '密码不能为空', trigger: 'blur'
+          }
+        ]
       }
     }
   },
   methods: {
     onSubmit () {
-      console.debug(this.loginForm.name)
-      setStore('uId', 'abc')
-      this.$router.push('home')
+      this.$refs['loginForm'].validate((valid) => {
+        if (valid) {
+          signin(this.loginForm.name, this.loginForm.password).then(res => {
+            if (res.data.success) {
+              var userId = res.data.data
+              setStore(constant.UID, userId)
+              this.$router.push('/home')
+            } else {
+              this.$message.error(res.data.message)
+            }
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    jumpToSignup () {
+      this.$router.push('/signup')
     }
   }
 }

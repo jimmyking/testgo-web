@@ -1,4 +1,5 @@
 const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')
+const signup = r => require.ensure([], () => r(require('../page/signup/signup')), 'signup')
 const header = r => require.ensure([], () => r(require('../components/header/header')), 'header')
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
 const project = r => require.ensure([], () => r(require('../page/project/project')), 'project')
@@ -12,6 +13,10 @@ export default [
   {
     path: '/login',
     component: login
+  },
+  {
+    path: '/signup',
+    component: signup
   },
   {
     path: '/',

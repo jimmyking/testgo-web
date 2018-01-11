@@ -4,7 +4,8 @@
 </template>
 
 <script>
-import {getStore} from '../../util/utils'
+import {getStore} from '../../util/appUtils'
+import constant from '../../config/constant'
 
 export default {
   mounted () {
@@ -12,7 +13,7 @@ export default {
   },
   methods: {
     async loadPage () {
-      var uId = getStore('uId')
+      var uId = getStore(constant.UID)
       if (!uId) {
         this.$router.push('login')
       }

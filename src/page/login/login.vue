@@ -53,7 +53,7 @@ export default {
         if (valid) {
           signin(this.loginForm.name, this.loginForm.password).then(res => {
             if (res.data.success) {
-              var userId = res.data.data
+              var userId = res.data.data.id
               setStore(constant.UID, userId)
               this.$router.push('/home')
             } else {

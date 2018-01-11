@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-header>新增项目</el-header>
-    <el-form label-width="80px" :model="projectForm">
-      <el-form-item label="项目名称">
+    <el-form label-width="80px" :model="projectForm" ref="projectForm" :rules="rules">
+      <el-form-item label="项目名称" prop="name">
         <el-input v-model="projectForm.name">
         </el-input>
       </el-form-item>
@@ -15,18 +15,39 @@
 </template>
 
 <script>
+import {addProject} from '../../../service/getData'
+import constant from '../../../config/constant'
+import { getStore } from '../../../util/appUtils'
+
 export default {
   data () {
     return {
       projectForm: {
         name: ''
+      },
+      rules: {
+        name: [
+          {
+            required: true, message: '名称不能为空', trigger: 'blur'
+          }
+        ]
       }
     }
   },
   methods: {
     onSubmit: function () {
-      console.debug(this.projectForm.name)
-      this.$router.push('project')
+      this.$refs['projectForm'].validate((valid) => {
+        if (valid) {
+          addProject(getStore(constant.UID), this.projectForm.name).then(res => {
+            if (res.data.success) {
+              this.$router.push('/project')
+            }
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     }
   }
 }

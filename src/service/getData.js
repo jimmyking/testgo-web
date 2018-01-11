@@ -9,3 +9,21 @@ export const signin = (name, pw) => request('user/signin', {
   name: name,
   password: pw
 })
+
+export const queryProject = (uId) => request('project/query', {
+  uId: uId
+})
+
+export const addProject = (uId, name) => request('project/add', {
+  userId: uId,
+  name: name
+})
+
+export const updateProject = (id, name) => request('project/update', {
+  id: id,
+  name: name
+})
+
+export const deleteProject = (id) => request('project/delete', {
+  id: id
+})

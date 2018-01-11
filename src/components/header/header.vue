@@ -4,11 +4,11 @@
       <el-header>
         <el-row>
           <el-col :span="4">
-            <router-link :to="{path: 'home'}">TestGo</router-link>
+            <router-link :to="{path: '/home'}">TestGo</router-link>
           </el-col>
           <el-col :span="20">
             <el-menu :default-active="activeMenu" mode="horizontal" class="main-menu" router>
-              <el-menu-item index="project">我的项目</el-menu-item>
+              <el-menu-item index="/project">我的项目</el-menu-item>
             </el-menu>
           </el-col>
         </el-row>
@@ -30,7 +30,7 @@
 export default {
   computed: {
     activeMenu: function () {
-      return this.$route.path.replace('/', '')
+      return this.$route.path
     }
   }
 }

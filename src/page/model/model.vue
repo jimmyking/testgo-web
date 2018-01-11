@@ -3,7 +3,8 @@
     <el-row style="margin-bottom:10px">
       <el-col :span="23">
         <el-breadcrumb separator="/" style="height:32px;line-height:32px;">
-          <el-breadcrumb-item :to="{ path: '/project' }">xx项目</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/project' }">我的项目</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ projectName }}</el-breadcrumb-item>
           <el-breadcrumb-item>模块列表</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
@@ -30,32 +31,28 @@
 </template>
 
 <script>
+import { findProject } from '../../service/getData'
+
 export default {
   data () {
     return {
-      tableData: [{
-        id: 1,
-        date: '2016-05-02',
-        name: '王小虎'
-      }, {
-        id: 2,
-        date: '2016-05-04',
-        name: '王小虎'
-      }, {
-        id: 3,
-        date: '2016-05-01',
-        name: '王小虎'
-      }, {
-        id: 4,
-        date: '2016-05-03',
-        name: '王小虎'
-      }]
+      tableData: [],
+      projectName: ''
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    var pId = to.params.pId
+    findProject(pId).then(res => {
+      next(vm => vm.setData(res.data.data))
+    })
   },
   methods: {
     jumpToFeature: function (row) {
       console.debug(row)
       this.$router.push({name: 'featureList', params: {pId: 1, mId: row.id}})
+    },
+    setData: function (data) {
+      this.projectName = data.name
     }
   }
 }

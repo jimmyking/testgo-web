@@ -1,9 +1,14 @@
 <template>
   <div>
-    <el-row class="tool-section">
-      <el-col>
+    <el-row style="margin-bottom:10px">
+      <el-col :span="23">
+        <el-breadcrumb separator="/" style="height:32px;line-height:32px;">
+          <el-breadcrumb-item :to="{ path: '/project' }">我的项目</el-breadcrumb-item>
+        </el-breadcrumb>
+      </el-col>
+      <el-col :span="1">
         <router-link :to="{path: 'addProject'}">
-          <el-button type="primary" icon="el-icon-circle-plus"></el-button>
+          <el-button size="small" type="primary" icon="el-icon-circle-plus"></el-button>
         </router-link>
       </el-col>
     </el-row>
@@ -15,7 +20,7 @@
         align="center">
       </el-table-column>
       <el-table-column
-        prop="date"
+        prop="createDate"
         label="创建日期"
         align="center">
       </el-table-column>
@@ -34,27 +39,22 @@ export default {
       tableData: []
     }
   },
-  mounted () {
+  beforeRouteEnter (to, from, next) {
     var uId = getStore(constant.UID)
     queryProject(uId).then(res => {
-      this.tableData = res.data.data
+      next(vm => vm.setData(res.data.data))
+      // this.tableData = res.data.data
     })
   },
   methods: {
     jumpToModel: function (row) {
       console.debug(row)
       this.$router.push({name: 'modelList', params: { pId: row.id }})
+    },
+    setData: function (data) {
+      this.tableData = data
     }
   }
 }
 </script>
-
-<style>
-.tool-section{
-  float: right;
-  margin-bottom: 10px;
-  margin-right: 10px;
-}
-</style>
-
 

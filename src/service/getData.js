@@ -14,6 +14,10 @@ export const queryProject = (uId) => request('project/query', {
   uId: uId
 })
 
+export const findProject = (pId) => request('project/find', {
+  pId: pId
+})
+
 export const addProject = (uId, name) => request('project/add', {
   userId: uId,
   name: name

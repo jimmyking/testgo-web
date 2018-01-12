@@ -27,10 +27,31 @@
 </template>
 
 <script>
+import {mapMutations} from 'vuex'
+import {getStore, checkNullOrUndefine} from '../../util/appUtils'
+import constant from '../../config/constant'
+import {findUser} from '../../service/getData'
+
 export default {
+
   computed: {
     activeMenu: function () {
       return this.$route.path
+    }
+  },
+  methods: {
+    ...mapMutations([
+      'SAVE_USERINFO'
+    ])
+  },
+  mounted () {
+    if (!this.$store.state.userInfo && !checkNullOrUndefine(getStore(constant.UID))) {
+      findUser().then(res => {
+        this.SAVE_USERINFO(res.data.data)
+      })
+    }
+    if (checkNullOrUndefine(getStore(constant.UID))) {
+      this.$router.push('/login')
     }
   }
 }

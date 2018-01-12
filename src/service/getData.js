@@ -1,4 +1,5 @@
 import {request} from '../util/client'
+import {getStore} from '../util/appUtils'
 
 export const signup = (name, pw) => request('user/signup', {
   name: name,
@@ -8,6 +9,10 @@ export const signup = (name, pw) => request('user/signup', {
 export const signin = (name, pw) => request('user/signin', {
   name: name,
   password: pw
+})
+
+export const findUser = () => request('user/find', {
+  uId: getStore('UID')
 })
 
 export const queryProject = (uId) => request('project/query', {

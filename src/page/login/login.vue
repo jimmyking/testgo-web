@@ -23,9 +23,9 @@
 
 <script>
 import {signin} from '../../service/getData'
-import constant from '../../config/constant'
-import { setStore } from '../../util/appUtils'
 import {mapMutations} from 'vuex'
+import {getStore, checkNullOrUndefine} from '../../util/appUtils'
+import constant from '../../config/constant'
 
 export default {
   data () {
@@ -48,6 +48,11 @@ export default {
       }
     }
   },
+  mounted: function () {
+    if (!checkNullOrUndefine(getStore(constant.UID))) {
+      this.$router.push('/home')
+    }
+  },
   methods: {
     ...mapMutations([
       'SAVE_USERINFO'
@@ -57,9 +62,7 @@ export default {
         if (valid) {
           signin(this.loginForm.name, this.loginForm.password).then(res => {
             if (res.data.success) {
-              var userId = res.data.data.id
               this.SAVE_USERINFO(res.data.data)
-              setStore(constant.UID, userId)
               this.$router.push('/home')
             } else {
               this.$message.error(res.data.message)

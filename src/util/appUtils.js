@@ -16,3 +16,7 @@ export const validEmail = (validstr) => {
   var re = new RegExp('^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$')
   return re.test(validstr)
 }
+
+export const checkNullOrUndefine = (val) => {
+  return (!val && typeof (val) !== 'undefined' && val !== 0)
+}

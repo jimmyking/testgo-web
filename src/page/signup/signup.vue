@@ -23,9 +23,10 @@
 </template>
 
 <script>
-import { validEmail, setStore } from '../../util/appUtils'
+import { validEmail, getStore, checkNullOrUndefine } from '../../util/appUtils'
 import { signup } from '../../service/getData'
 import constant from '../../config/constant'
+import {mapMutations} from 'vuex'
 
 export default {
   data () {
@@ -66,15 +67,21 @@ export default {
       }
     }
   },
+  mounted: function () {
+    if (!checkNullOrUndefine(getStore(constant.UID))) {
+      this.$router.push('/home')
+    }
+  },
   methods: {
     onSubmit () {
       this.$refs['signupForm'].validate((valid) => {
         if (valid) {
           console.log('success submit!!')
           signup(this.signupForm.name, this.signupForm.password).then(res => {
-            console.log('res=', res)
-            var userId = res.data.data
-            setStore(constant.UID, userId)
+            this.SAVE_USERINFO({
+              id: res.data.data,
+              name: this.signupForm.name
+            })
             this.$router.push('/home')
           })
         } else {
@@ -82,7 +89,10 @@ export default {
           return false
         }
       })
-    }
+    },
+    ...mapMutations([
+      'SAVE_USERINFO'
+    ])
   }
 }
 </script>

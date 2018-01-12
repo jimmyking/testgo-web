@@ -34,3 +34,15 @@
     </el-table>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      project: {},
+      model: {},
+      tableData: []
+    }
+  }
+}
+</script>

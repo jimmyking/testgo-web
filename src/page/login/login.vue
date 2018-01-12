@@ -25,6 +25,7 @@
 import {signin} from '../../service/getData'
 import constant from '../../config/constant'
 import { setStore } from '../../util/appUtils'
+import {mapMutations} from 'vuex'
 
 export default {
   data () {
@@ -48,12 +49,16 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'SAVE_USERINFO'
+    ]),
     onSubmit () {
       this.$refs['loginForm'].validate((valid) => {
         if (valid) {
           signin(this.loginForm.name, this.loginForm.password).then(res => {
             if (res.data.success) {
               var userId = res.data.data.id
+              this.SAVE_USERINFO(res.data.data)
               setStore(constant.UID, userId)
               this.$router.push('/home')
             } else {

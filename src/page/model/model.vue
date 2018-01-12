@@ -4,12 +4,12 @@
       <el-col :span="23">
         <el-breadcrumb separator="/" style="height:32px;line-height:32px;">
           <el-breadcrumb-item :to="{ path: '/project' }">我的项目</el-breadcrumb-item>
-          <el-breadcrumb-item>{{ projectName }}</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ name: 'modelList', params: {pId: project.id } }">{{ project.name }}</el-breadcrumb-item>
           <el-breadcrumb-item>模块列表</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
       <el-col :span="1">
-        <router-link :to="{name: 'addModel', params: { pId: 1 }}">
+        <router-link :to="{name: 'addModel', params: { pId: project.id }}">
           <el-button size="small" type="primary" icon="el-icon-circle-plus"></el-button>
         </router-link>
       </el-col>
@@ -22,7 +22,7 @@
         align="center">
       </el-table-column>
       <el-table-column
-        prop="date"
+        prop="prefix"
         label="API url前缀"
         align="center">
       </el-table-column>
@@ -31,19 +31,22 @@
 </template>
 
 <script>
-import { findProject } from '../../service/getData'
+import { findProject, queryModelByProject } from '../../service/getData'
 
 export default {
   data () {
     return {
       tableData: [],
-      projectName: ''
+      project: {}
     }
   },
   beforeRouteEnter (to, from, next) {
     var pId = to.params.pId
     findProject(pId).then(res => {
-      next(vm => vm.setData(res.data.data))
+      var tempProject = res.data.data
+      queryModelByProject(pId).then(res => {
+        next(vm => vm.setData(tempProject, res.data.data))
+      })
     })
   },
   methods: {
@@ -51,17 +54,11 @@ export default {
       console.debug(row)
       this.$router.push({name: 'featureList', params: {pId: 1, mId: row.id}})
     },
-    setData: function (data) {
-      this.projectName = data.name
+    setData: function (project, modelList) {
+      this.project = project
+      this.tableData = modelList
     }
   }
 }
 </script>
 
-<style>
-.tool-section{
-  float: right;
-  margin-bottom: 10px;
-  margin-right: 10px;
-}
-</style>

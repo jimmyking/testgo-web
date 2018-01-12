@@ -31,3 +31,9 @@ export const updateProject = (id, name) => request('project/update', {
 export const deleteProject = (id) => request('project/delete', {
   id: id
 })
+
+export const queryModelByProject = (pId) => request('model/queryByProjectId', {
+  pId: pId
+})
+
+export const addModel = (model) => request('model/add', model)

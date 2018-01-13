@@ -47,7 +47,6 @@ export default {
   },
   created () {
     var pId = this.$route.params.pId
-    console.debug(this.project)
     queryModelByProject(pId).then(res => {
       this.tableData = res.data.data
     })

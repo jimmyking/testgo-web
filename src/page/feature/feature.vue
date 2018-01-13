@@ -3,8 +3,9 @@
     <el-row style="margin-bottom:10px">
       <el-col :span="23">
         <el-breadcrumb separator="/" style="height:32px;line-height:32px;">
-          <el-breadcrumb-item :to="{ path: '/project' }">xx项目</el-breadcrumb-item>
-          <el-breadcrumb-item>模块名称</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/project' }">我的项目</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{name: 'modelList', params: {pId: project.id }}">{{ project.name }}</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ model.name }}</el-breadcrumb-item>
           <el-breadcrumb-item>API列表</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
@@ -36,13 +37,19 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data () {
     return {
-      project: {},
-      model: {},
       tableData: []
     }
+  },
+  computed: {
+    ...mapState([
+      'project',
+      'model'
+    ])
   }
 }
 </script>

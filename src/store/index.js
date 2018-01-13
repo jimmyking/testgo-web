@@ -8,8 +8,15 @@ Vue.use(Vuex)
 
 const state = {
   userInfo: null,
-  project: null,
-  module: null
+  project: {
+    id: null,
+    name: null
+  },
+  model: {
+    id: null,
+    name: null,
+    prefix: null
+  }
 }
 
 export default new Vuex.Store({

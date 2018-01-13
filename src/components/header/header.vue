@@ -28,9 +28,10 @@
 
 <script>
 import {mapMutations} from 'vuex'
-import {getStore, checkNullOrUndefine} from '../../util/appUtils'
+import {getStore} from '../../util/appUtils'
 import constant from '../../config/constant'
-import {findUser} from '../../service/getData'
+import {findUser, findProject, findModel} from '../../service/getData'
+import is from 'is_js'
 
 export default {
 
@@ -41,17 +42,31 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'SAVE_USERINFO'
+      'SAVE_USERINFO',
+      'SAVE_PROJECT',
+      'SAVE_MODEL'
     ])
   },
-  mounted () {
-    if (!this.$store.state.userInfo && !checkNullOrUndefine(getStore(constant.UID))) {
+  created () {
+    if (is.null(getStore(constant.UID)) || is.undefined(getStore(constant.UID))) {
+      this.$router.push('/login')
+      return
+    }
+    if (is.null(this.$store.state.userInfo) && is.not.null(getStore(constant.UID))) {
       findUser().then(res => {
         this.SAVE_USERINFO(res.data.data)
       })
     }
-    if (checkNullOrUndefine(getStore(constant.UID))) {
-      this.$router.push('/login')
+    let params = this.$route.params
+    if (is.not.undefined(params.pId) && params.pId !== this.$store.state.project.id) {
+      findProject(params.pId).then(res => {
+        this.SAVE_PROJECT(res.data.data)
+      })
+    }
+    if (is.not.undefined(params.mId) && params.mId !== this.$store.state.model.id) {
+      findModel(params.mId).then(res => {
+        this.SAVE_MODEL(res.data.data)
+      })
     }
   }
 }

@@ -42,3 +42,7 @@ export const queryModelByProject = (pId) => request('model/queryByProjectId', {
 })
 
 export const addModel = (model) => request('model/add', model)
+
+export const findModel = (mId) => request('model/find', {
+  mId: mId
+})

@@ -31,33 +31,42 @@
 </template>
 
 <script>
-import { findProject, queryModelByProject } from '../../service/getData'
+import { queryModelByProject } from '../../service/getData'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   data () {
     return {
-      tableData: [],
-      project: {}
+      tableData: []
     }
   },
-  beforeRouteEnter (to, from, next) {
-    var pId = to.params.pId
-    findProject(pId).then(res => {
-      var tempProject = res.data.data
-      queryModelByProject(pId).then(res => {
-        next(vm => vm.setData(tempProject, res.data.data))
-      })
+  computed: {
+    ...mapState([
+      'project'
+    ])
+  },
+  created () {
+    var pId = this.$route.params.pId
+    console.debug(this.project)
+    queryModelByProject(pId).then(res => {
+      this.tableData = res.data.data
     })
   },
   methods: {
     jumpToFeature: function (row) {
-      console.debug(row)
+      this.SAVE_MODEL({
+        id: row.id,
+        name: row.name,
+        prefix: row.prefix
+      })
       this.$router.push({name: 'featureList', params: {pId: 1, mId: row.id}})
     },
-    setData: function (project, modelList) {
-      this.project = project
-      this.tableData = modelList
-    }
+    ...mapMutations(
+      [
+        'SAVE_PROJECT',
+        'SAVE_MODEL'
+      ]
+    )
   }
 }
 </script>

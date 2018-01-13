@@ -32,6 +32,7 @@
 import { queryProject } from '../../service/getData'
 import constant from '../../config/constant'
 import { getStore } from '../../util/appUtils'
+import { mapMutations } from 'vuex'
 
 export default {
   data () {
@@ -39,21 +40,23 @@ export default {
       tableData: []
     }
   },
-  beforeRouteEnter (to, from, next) {
+  created () {
     var uId = getStore(constant.UID)
     queryProject(uId).then(res => {
-      next(vm => vm.setData(res.data.data))
-      // this.tableData = res.data.data
+      this.tableData = res.data.data
     })
   },
   methods: {
     jumpToModel: function (row) {
-      console.debug(row)
+      this.SAVE_PROJECT({
+        id: row.id,
+        name: row.name
+      })
       this.$router.push({name: 'modelList', params: { pId: row.id }})
     },
-    setData: function (data) {
-      this.tableData = data
-    }
+    ...mapMutations([
+      'SAVE_PROJECT'
+    ])
   }
 }
 </script>

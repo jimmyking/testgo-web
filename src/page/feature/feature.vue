@@ -15,7 +15,7 @@
       </el-col>
     </el-row>
 
-    <el-table :data="tableData" border style="width: 100%" @row-click="jumpToFeature">
+    <el-table :data="tableData" border style="width: 100%">
       <el-table-column
         prop="name"
         label="API名称"
